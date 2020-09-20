@@ -76,12 +76,46 @@ dawn = scooby_gang.users.create(name: 'Dawn Summers', address: '1680 Robello Dr'
 admin = User.create(name: 'Megan', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'admin@admin.com', password: 'admin', role: :admin)
 
 # Orders (called on users)
-  #two distinct users have orders
-  #at least one user has multiple orders
-  #at least one user has a cancelled order
+    # pending, packaged, shipped, cancelled
+    # 0, 1, 2, 3
+    #two distinct users have orders
+    #at least one user has multiple orders
+    #at least one user has a cancelled order
+tim_order_1 = user_tim.orders.create!(status: 0)
+tim_order_2 = user_tim.orders.create!(status: 2)
+kat_order_1 = user_kat.orders.create!(status: 2)
+kat_order_2 = user_kat.orders.create!(status: 1)
+mike_order_1 = user_mike.orders.create!(status: 3)
+mike_order_2 = user_mike.orders.create!(status: 1)
+mike_order_3 = user_mike.orders.create!(status: 2)
+#user_brian has no order
+anya_order_1 = anya.orders.create!(status: 2)
+anya_order_2 = anya.orders.create!(status: 0)
+dawn_order_1 = dawn.orders.create!(status: 2)
 
 # Order Items (called on orders and include items)
+tim_order_1.order_items.create!(item: bindweed, price: bindweed.price, quantity: 3)
+tim_order_1.order_items.create!(item: holy_water, price: holy_water.price, quantity: 1)
+tim_order_2.order_items.create!(item: vampire, price: vampire.price, quantity: 5, fulfilled: true)
 
+kat_order_1.order_items.create!(item: vampire, price: vampire.price, quantity: 1, fulfilled: true)
+kat_order_2.order_items.create!(item: gentleman, price: gentleman.price, quantity: 2, fulfilled: true)
+kat_order_2.order_items.create!(item: stake, price: stake.price, quantity: 10, fulfilled: true)
+
+mike_order_1.order_items.create!(item: vampire_book, price: vampire_book.price, quantity: 2)
+mike_order_2.order_items.create!(item: vengeance, price: vengeance.price, quantity: 5, fulfilled: true)
+mike_order_2.order_items.create!(item: bullet, price: bullet.price, quantity: 3, fulfilled: true)
+mike_order_3.order_items.create!(item: knife, price: knife.price, quantity: 1, fulfilled: true)
+mike_order_3.order_items.create!(item: willow, price: willow.price, quantity: 6, fulfilled: true)
+mike_order_3.order_items.create!(item: vampire_book, price: vampire_book.price, quantity: 1, fulfilled: true)
+
+anya_order_1.order_items.create!(item: xander, price: xander.price, quantity: 1, fulfilled: true)
+anya_order_1.order_items.create!(item: cordy, price: cordy.price, quantity: 3, fulfilled: true)
+anya_order_1.order_items.create!(item: gentleman, price: gentleman.price, quantity: 2, fulfilled: true)
+anya_order_2.order_items.create!(item: scythe, price: scythe.price, quantity: 1)
+anya_order_2.order_items.create!(item: vampire, price: vampire.price, quantity: 5)
+dawn_order_1.order_items.create!(item: bullet, price: bullet.price, quantity: 3, fulfilled: true)
+dawn_order_1.order_items.create!(item: knife, price: knife.price, quantity: 1, fulfilled: true)
 # Reviews (called on items)
 
   #at least one review per merchant shop
