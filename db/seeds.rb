@@ -18,12 +18,12 @@ sunnydale_high = Merchant.create!(name: "The Sunnydale High Memorial Shop", addr
 scooby_gang = Merchant.create!(name: "The Scooby Gang", address: '1630 Revello Drive', city: 'Sunnydale', state: 'CA', zip: 90345)
 
 # Discounts (called on merchants)
-  #magic box discount
-  #sunnydale high discount
-  #sunnydale high discount
-  #scooby gang discount
-  #scooby gang discount
-  #scooby gang discount
+magic_discount = magic_box.discounts.create!(description:"Buy 5 items, get 10% off", quantity:5, percent:10)
+sunnydale_discount_1 = sunnydale_high.discounts.create!(description:"Buy 5 items, get 20% off", quantity:5, percent:20)
+sunnydale_discount_2 = sunnydale_high.discounts.create!(description:"Buy 10 items, get 35% off", quantity:10, percent:35)
+scooby_discount_1 = scooby_gang.discounts.create!(description:"Buy 5 items, get 15% off", quantity:5, percent:15)
+scooby_discount_2 = scooby_gang.discounts.create!(description:"Buy 15 items, get 35% off", quantity:15, percent:35)
+scooby_discount_3 = scooby_gang.discounts.create!(description:"Buy 25 items, get 50% off", quantity:25, percent:50)
 
 # Items (called on merchants)
   #magic items
