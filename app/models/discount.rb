@@ -10,4 +10,14 @@ class Discount < ApplicationRecord
   def self.enabled_discounts
     where(enable: true)
   end
+
+  def enabled
+    message = String
+    if enable?
+      message = "Enabled"
+    else
+      message = "Disabled"
+    end
+    message
+  end
 end
