@@ -3,4 +3,8 @@ class Merchant::DiscountsController < Merchant::BaseController
     @merchant = current_user.merchant
     @discounts = @merchant.discounts
   end
+
+  def update
+
+  end
 end
