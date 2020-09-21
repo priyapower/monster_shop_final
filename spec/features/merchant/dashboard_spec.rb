@@ -16,6 +16,11 @@ RSpec.describe 'Merchant Dashboard' do
       @order_item_2 = @order_2.order_items.create!(item: @hippo, price: @hippo.price, quantity: 2, fulfilled: true)
       @order_item_3 = @order_2.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2, fulfilled: false)
       @order_item_4 = @order_3.order_items.create!(item: @giant, price: @giant.price, quantity: 2, fulfilled: false)
+      @merchant_1_discount_1 = @merchant_1.discounts.create!(description:"Buy 5 items, get 20% off", quantity:5, percent:20)
+      @merchant_1_discount_2 = @merchant_1.discounts.create!(description:"Buy 15 items, get 40% off", quantity:15, percent:40)
+      @merchant_1_discount_3 = @merchant_1.discounts.create!(description:"Buy 30 items, get 60% off", quantity:30, percent:60)
+      @merchant_2_discount_1 = @merchant_2.discounts.create!(description:"Buy 2 items, get 5% off", quantity:2, percent:5)
+      @merchant_2_discount_2 = @merchant_2.discounts.create!(description:"Buy 10 items, get 25% off", quantity:10, percent:25)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@m_user)
     end
 
@@ -61,6 +66,43 @@ RSpec.describe 'Merchant Dashboard' do
       click_link @order_2.id
 
       expect(current_path).to eq("/merchant/orders/#{@order_2.id}")
+    end
+
+    it "can link to the discounts nested:merchant show page" do
+      visit '/merchant'
+
+      expect(page).to have_link("My Discounts")
+      click_link("My Discounts")
+
+      expect(current_path).to eq("/merchant/discounts")
+
+      within "#discount-info-#{@merchant_1_discount_1.id}" do
+        expect(page).to have_link(@merchant_1_discount_1.id)
+        expect(page).to have_button("Delete this Discount")
+        expect(@merchant_1_discount_1.enable).to eq(true)
+        expect(page).to have_css(check_box "Enable/Disable")
+        check("Enable/Disable")
+        click_button("Save changes")
+        expect(@merchant_1_discount_1.enable).to eq(false)
+
+        expect(page).to_not have_content(@merchant_1_discount_1.description)
+        expect(page).to_not have_content(@merchant_1_discount_1.quantity)
+        expect(page).to_not have_content(@merchant_1_discount_1.percent)
+      end
+
+      within "#discount-info-#{@merchant_1_discount_2.id}" do
+        expect(page).to have_link(@merchant_1_discount_2.id)
+        expect(page).to have_button("Delete this Discount")
+        expect(page).to have_content(@merchant_1_discount_2.enable)
+      end
+
+      within "#discount-info-#{@merchant_1_discount_3.id}" do
+        expect(page).to have_link(@merchant_1_discount_3.id)
+        expect(page).to have_button("Delete this Discount")
+        expect(page).to have_content(@merchant_1_discount_3.enable)
+        click_link @merchant_1_discount_3.id
+        expect(current_path).to eq("/merchant/discounts/#{@merchant_1_discount_3.id}")
+      end
     end
   end
 end
