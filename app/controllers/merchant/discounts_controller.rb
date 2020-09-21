@@ -1,9 +1,13 @@
 class Merchant::DiscountsController < Merchant::BaseController
+
   def index
     @merchant = current_user.merchant
     @discounts = @merchant.discounts
   end
 
+  def show
+
+  end
   # def update_status
   #   discount = Discount.find(params[:id])
   #   if params[:status] == "disable"
