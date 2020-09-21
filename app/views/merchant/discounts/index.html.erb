@@ -12,9 +12,9 @@
     </ul>
     <ul>
       <% if discount.enable? %>
-        <%= button_to "Disable this Discount", "/merchant/discounts/disable/#{discount.id}"%>
+        <%= button_to "Disable this Discount", "/merchant/discounts/disable/#{discount.id}", method: :patch%>
       <% else %>
-        <%= button_to "Enable this Discount", "/merchant/discounts/enable/#{discount.id}"%>
+        <%= button_to "Enable this Discount", "/merchant/discounts/enable/#{discount.id}", method: :patch%>
       <% end %>
     </ul>
   </section>
