@@ -32,7 +32,6 @@ RSpec.describe 'Cart Show Page - Discounts Visible' do
 
     it "can see visible discounts offered by merchant" do
       visit "/cart"
-
       within "#item-#{@hippo.id}" do
         expect(page).to have_content(@brian_discount.description)
       end
@@ -46,7 +45,7 @@ RSpec.describe 'Cart Show Page - Discounts Visible' do
       end
 
       within "#item-#{@not_visible_item.id}" do
-        expect(page).to have_content("----------")
+        expect(page).to have_content("-----None Available-----")
       end
 
     end
