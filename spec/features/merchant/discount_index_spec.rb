@@ -29,7 +29,7 @@ RSpec.describe 'Discounts Index Page under Merchant Dashboard' do
       expect(page).to have_content("Discounts for #{@merchant_1.name}")
 
       within "#discount-info-#{@merchant_1_discount_1.id}" do
-        expect(page).to have_link("Discount: #{@merchant_1_discount_1.id}")
+        expect(page).to have_link("Discount# #{@merchant_1_discount_1.id}")
         expect(page).to have_button("Delete this Discount")
         expect(page).to have_content("Status: Enabled")
 
