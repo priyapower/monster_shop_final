@@ -18,6 +18,13 @@ RSpec.describe Cart do
         })
     end
 
+    it "#displays_discounts()" do
+      expect(@cart_2.display_discounts(@hippo.id)).to eq("Buy 5 items, get 20% off")
+      expect(@cart.display_discounts(@ogre.id)).to eq("-----None Available-----")
+      @cart_2.add_item(@hippo.id.to_s)
+      expect(@cart_2.display_discounts(@hippo.id)).to eq("Congratulations! Your quantity meets this builk discount")
+    end
+
     it '.grand_total' do
       expect(@cart.grand_total).to eq(120)
     end
@@ -37,7 +44,7 @@ RSpec.describe Cart do
     end
 
     it '#discount_conditions_met?()' do
-      expect(@cart_2.discount_conditions_met?(@hippo, 5, 250)).to eq(true)
+      expect(@cart_2.discount_conditions_met?(@hippo, 5)).to eq(true)
     end
 
     it '.contents' do
