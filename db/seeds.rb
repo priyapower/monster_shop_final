@@ -116,7 +116,13 @@ anya_order_2.order_items.create!(item: scythe, price: scythe.price, quantity: 1)
 anya_order_2.order_items.create!(item: vampire, price: vampire.price, quantity: 5)
 dawn_order_1.order_items.create!(item: bullet, price: bullet.price, quantity: 3, fulfilled: true)
 dawn_order_1.order_items.create!(item: knife, price: knife.price, quantity: 1, fulfilled: true)
-# Reviews (called on items)
 
-  #at least one review per merchant shop
-  #at least one item has three reviews
+# Reviews (called on items)
+    #at least one review per merchant shop
+    #at least one item has two reviews
+holy_water.reviews.create(title: 'Effective!', description: 'This weapon is a great friend when fighting vampires - however, be ready to run!', rating: 3)
+hellebore.reviews.create(title: 'Stinky!', description: 'The shopkeeper didnt say how stinky this stuff was! My whole house smells after this spell', rating: 1)
+vengeance.reviews.create(title: 'Scary!', description: 'I didnt know I was using a vengeance demon and I just said the word wish! Now all the frat boys are dead!!!', rating: 1)
+vengeance.reviews.create(title: 'Perfect!', description: 'I needed a vengeance demon to turn my ex boyfriend into a worm! Success!', rating: 4)
+trophy.reviews.create(title: 'Creepy!', description: 'I can see her eyes following me - exactly what I wanted', rating: 5)
+rupert.reviews.create(title: 'Learned!', description: 'This ex watcher knows his stuff!', rating: 5)
