@@ -18,17 +18,26 @@ RSpec.describe Cart do
         })
     end
 
-    it '#discount_update' do
+    it '.grand_total' do
+      expect(@cart.grand_total).to eq(120)
+    end
+
+    #Discount updates grand_total
+    it '.grand_total' do
       expect(@cart_2.contents).to eq({
         @hippo.id.to_s => 4
         })
-      expect(@cart_2.grand_total).to eq(100)
-      @cart_2.discount_update
-      expect(@cart_2.grand_total).to eq(100)
-      @cart_2.add_item(@hippo.id.to_s)
-      expect(@cart_2.grand_total).to eq(150)
-      @cart_2.discount_update
-      expect(@cart_2.grand_total).to eq(120)
+        expect(@cart_2.grand_total).to eq(200)
+        @cart_2.add_item(@hippo.id.to_s)
+        expect(@cart_2.grand_total).to eq(200)
+    end
+
+    it '#update_cart_with_discounts()' do
+      expect(@cart_2.update_cart_with_discounts(@brian, 250)).to eq(200)
+    end
+
+    it '#discount_conditions_met?()' do
+      expect(@cart_2.discount_conditions_met?(@hippo, 5, 250)).to eq(true)
     end
 
     it '.contents' do
@@ -54,10 +63,6 @@ RSpec.describe Cart do
 
     it '.items' do
       expect(@cart.items).to eq([@ogre, @giant])
-    end
-
-    it '.grand_total' do
-      expect(@cart.grand_total).to eq(120)
     end
 
     it '.count_of()' do
