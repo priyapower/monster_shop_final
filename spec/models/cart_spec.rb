@@ -22,7 +22,7 @@ RSpec.describe Cart do
       expect(@cart_2.display_discounts(@hippo.id)).to eq("Buy 5 items, get 20% off")
       expect(@cart.display_discounts(@ogre.id)).to eq("-----None Available-----")
       @cart_2.add_item(@hippo.id.to_s)
-      expect(@cart_2.display_discounts(@hippo.id)).to eq("Congratulations! Your quantity meets this builk discount")
+      expect(@cart_2.display_discounts(@hippo.id)).to eq("Congratulations! Your quantity meets this bulk discount")
     end
 
     it '.grand_total' do

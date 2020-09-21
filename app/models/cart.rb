@@ -34,12 +34,11 @@ class Cart
       message = "-----None Available-----"
     else
       merchant.discounts.each do |discount|
-        @contents.each do |cart_item_id, quantity|
-          if discount_conditions_met?(item, quantity)
-            message = "Congratulations! Your quantity meets this builk discount"
-          else
-            message = discount.description
-          end
+        quantity = @contents[item.id.to_s]
+        if discount_conditions_met?(item, quantity)
+          message = "Congratulations! Your quantity meets this bulk discount"
+        else
+          message = discount.description
         end
       end
     end
