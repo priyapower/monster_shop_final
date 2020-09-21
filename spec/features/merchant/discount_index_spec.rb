@@ -39,13 +39,13 @@ RSpec.describe 'Discounts Index Page under Merchant Dashboard' do
 
       within "#discount-info-#{@merchant_1_discount_2.id}" do
         expect(page).to have_content("Status: Enabled")
-        expect(page).to have_link("Disable this Discount")
+        expect(page).to have_button("Disable this Discount")
         expect(@merchant_1_discount_2.enable).to eq(true)
 
         click_on "Disable this Discount"
 
         expect(page).to have_content("Status: Disabled")
-        expect(page).to have_link("Enable this Discount")
+        expect(page).to have_button("Enable this Discount")
         expect(@merchant_1_discount_2.enable).to eq(false)
       end
 
