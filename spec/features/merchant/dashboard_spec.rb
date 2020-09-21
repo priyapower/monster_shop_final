@@ -100,7 +100,7 @@ RSpec.describe 'Merchant Dashboard' do
         expect(page).to have_link(@merchant_1_discount_3.id)
         expect(page).to have_button("Delete this Discount")
         expect(page).to have_content(@merchant_1_discount_3.enable)
-        click_link @merchant_1_discount_3.id
+        click_link(@merchant_1_discount_3.id)
         expect(current_path).to eq("/merchant/discounts/#{@merchant_1_discount_3.id}")
       end
     end
