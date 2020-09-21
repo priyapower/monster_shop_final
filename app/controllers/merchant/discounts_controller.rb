@@ -4,7 +4,13 @@ class Merchant::DiscountsController < Merchant::BaseController
     @discounts = @merchant.discounts
   end
 
-  def update
-
+  def update_status
+    discount = Discount.find(params[:id])
+    if params[:status] == "disable"
+      discount.update(enable:false)
+    elsif params[:status] == "enable"
+      binding.pry
+    end
+    render :index
   end
 end
