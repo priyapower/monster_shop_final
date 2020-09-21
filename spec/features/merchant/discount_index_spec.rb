@@ -26,6 +26,7 @@ RSpec.describe 'Discounts Index Page under Merchant Dashboard' do
 
     it "can see discount information that belongs on index" do
       visit '/merchant/discounts'
+      expect(page).to have_content("Discounts for #{@merchant_1.name}")
 
       within "#discount-info-#{@merchant_1_discount_1.id}" do
         expect(page).to have_link("Discount: #{@merchant_1_discount_1.id}")
