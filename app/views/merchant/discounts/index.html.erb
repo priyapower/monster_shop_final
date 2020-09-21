@@ -2,7 +2,7 @@
 <% @discounts.each do |discount| %>
   <section id="discount-info-<%=discount.id%>">
     <ul>
-      <b><%= link_to discount.id, "" %></b>
+      <%= link_to "Discount# #{discount.id}", "/merchant/discounts/#{discount.id}" %>
     </ul>
     <ul>
       <%= button_to "Delete this Discount", "/merchant/discounts/#{discount.id}", method: :delete %>
