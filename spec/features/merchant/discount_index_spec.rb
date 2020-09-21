@@ -60,6 +60,8 @@ RSpec.describe 'Discounts Index Page under Merchant Dashboard' do
     end
 
     it "can visit a unique discount show page by clicking id" do
+      visit '/merchant/discounts'
+      
       within "#discount-info-#{@merchant_1_discount_3.id}" do
         click_link(@merchant_1_discount_3.id)
       end
