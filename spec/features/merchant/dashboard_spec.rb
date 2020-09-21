@@ -75,34 +75,6 @@ RSpec.describe 'Merchant Dashboard' do
       click_link("My Discounts")
 
       expect(current_path).to eq("/merchant/discounts")
-
-      within "#discount-info-#{@merchant_1_discount_1.id}" do
-        expect(page).to have_link(@merchant_1_discount_1.id)
-        expect(page).to have_button("Delete this Discount")
-        expect(@merchant_1_discount_1.enable).to eq(true)
-        expect(page).to have_css(check_box "Enable/Disable")
-        check("Enable/Disable")
-        click_button("Save changes")
-        expect(@merchant_1_discount_1.enable).to eq(false)
-
-        expect(page).to_not have_content(@merchant_1_discount_1.description)
-        expect(page).to_not have_content(@merchant_1_discount_1.quantity)
-        expect(page).to_not have_content(@merchant_1_discount_1.percent)
-      end
-
-      within "#discount-info-#{@merchant_1_discount_2.id}" do
-        expect(page).to have_link(@merchant_1_discount_2.id)
-        expect(page).to have_button("Delete this Discount")
-        expect(page).to have_content(@merchant_1_discount_2.enable)
-      end
-
-      within "#discount-info-#{@merchant_1_discount_3.id}" do
-        expect(page).to have_link(@merchant_1_discount_3.id)
-        expect(page).to have_button("Delete this Discount")
-        expect(page).to have_content(@merchant_1_discount_3.enable)
-        click_link(@merchant_1_discount_3.id)
-        expect(current_path).to eq("/merchant/discounts/#{@merchant_1_discount_3.id}")
-      end
     end
   end
 end
