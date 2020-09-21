@@ -1,0 +1,21 @@
+<h1>Discounts for <%= @merchant.name %></h1>
+<% @discounts.each do |discount| %>
+  <section id="discount-info-<%=discount.id%>">
+    <ul>
+      <b><%= link_to discount.id, "" %></b>
+    </ul>
+    <ul>
+      <%= button_to "Delete this Discount", "/merchant/discounts/#{discount.id}", method: :delete %>
+    </ul>
+    <ul>
+      <p>Status: <%= discount.enabled %></p>
+    </ul>
+    <ul>
+      <% if discount.enable? %>
+        <%= button_to "Disable this Discount", "/merchant/discounts/#{discount.id}", method: :patch %>
+      <% else %>
+        <%= button_to "Enable this Discount", "/merchant/discounts/#{discount.id}", method: :patch %>
+      <% end %>
+    </ul>
+  </section>
+<% end %>
