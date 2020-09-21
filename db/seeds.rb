@@ -29,12 +29,12 @@ scooby_discount_3 = scooby_gang.discounts.create!(description:"Buy 25 items, get
   #magic items
 bindweed = magic_box.items.create!(name: 'Bindweed', description: "Convolvus arvensis: Bindweed vines can be used for binding spells (including handfasting) and for creating “bridges” and connections between realms", price: 15, image: 'https://i.pinimg.com/originals/41/4d/70/414d70124d8e60fd5849c3fdf644b759.jpg', inventory: 200 )
 vampire_book = magic_box.items.create!(name: 'A Treatise on the Mythology and Methodology of the Vampire Slayer', description: "This book details the history and power behind the vampire slayer and the watchers council", price: 195, image: 'https://st2.depositphotos.com/7926580/10666/i/950/depositphotos_106667708-stock-photo-old-ancient-book-with-golden.jpg', inventory: 30 )
-holy_water = magic_box.items.create!(name: 'Holy water', description: "", price: N, image: '', inventory: N )
-urn = magic_box.items.create!(name: 'Urn of Ishtar', description: "", price: N, image: '', inventory: N )
-horn = magic_box.items.create!(name: 'Unicorn Horn', description: "", price: N, image: '', active: false, inventory: N )
+holy_water = magic_box.items.create!(name: 'Holy water', description: "water that had been sanctified by a religious figure.[5] As a blessed object, it was capable of causing damage to vampires.", price: 15, image: 'https://vignette.wikia.nocookie.net/buffy/images/9/98/Holy_water.jpg/revision/latest/scale-to-width-down/700?cb=20200829203305', inventory: 125 )
+urn = magic_box.items.create!(name: 'Urn of Ishtar', description: "An urn of the goddess Ishtar.", price: 2500, image: 'https://vignette.wikia.nocookie.net/buffy/images/1/1f/Urn_of_Ishtar.png/revision/latest?cb=20180615185146', inventory: 3 )
+horn = magic_box.items.create!(name: 'Unicorn Horn', description: "The horn of a unicorn - properties unknown", price: 1950, image: 'https://www.miragepetproducts.com/assets/images/503-3%20unicorn%20horn/503-3%20unihorn%20mg-wt.jpg', active: false, inventory: 7 )
 
 amulet = uncle_bob.items.create!(name: 'Amulet of Caldys', description: "The Amulet of Caldys is a potent element whose true source of power is yet to be discovered", price: 2000, image: 'https://di2ponv0v5otw.cloudfront.net/posts/2018/09/03/5b8dee08e944bae50d35e07a/m_5b8dee21de6f621c19f8b2c8.jpg', active: false, inventory: 1 )
-hellebore = uncle_bob.items.create!(name: 'Hellebore', description: "", price: N, image: '', active: false, inventory: N )
+hellebore = uncle_bob.items.create!(name: 'Hellebore', description: "It is used in magic for healing of mental/emotional afflictions and for banishing and exorcisms. It has been used also for increasing intelligence and for protection and invisibility spells.", price: 35, image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Illustration_Helleborus_niger0.jpg/1200px-Illustration_Helleborus_niger0.jpg', active: false, inventory: 12 )
 
   # Monster items
 vampire = hellmouth.items.create!(name: 'Vampire', description: "Blood sucking undead demons who look humanoid", price: 50, image: 'https://vignette.wikia.nocookie.net/buffy/images/e/ec/The_Shroud_of_Rahmon_Kate_Angel_02.jpg/revision/latest?cb=20190423061440', inventory: 1500 )
@@ -103,7 +103,7 @@ kat_order_2.order_items.create!(item: gentleman, price: gentleman.price, quantit
 kat_order_2.order_items.create!(item: stake, price: stake.price, quantity: 10, fulfilled: true)
 
 mike_order_1.order_items.create!(item: vampire_book, price: vampire_book.price, quantity: 2)
-mike_order_2.order_items.create!(item: vengeance, price: vengeance.price, quantity: 5, fulfilled: true)
+mike_order_2.order_items.create!(item: snake, price: snake.price, quantity: 5, fulfilled: true)
 mike_order_2.order_items.create!(item: bullet, price: bullet.price, quantity: 3, fulfilled: true)
 mike_order_3.order_items.create!(item: knife, price: knife.price, quantity: 1, fulfilled: true)
 mike_order_3.order_items.create!(item: willow, price: willow.price, quantity: 6, fulfilled: true)
