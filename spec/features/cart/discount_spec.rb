@@ -91,9 +91,35 @@ RSpec.describe 'Discounted Cart Show Page' do
       end
     end
 
+    it "can discount multiple qualifying items from multiple merchants" do
+      visit '/cart'
 
-    it "can show multiple discounts savings"
-    it "can only discount the qualified item - this might already by done"
+      expect(page).to have_content("Total: $3,500.00")
+
+      within "#item-#{@ogre.id}" do
+        click_button('More of This!')
+      end
+
+      within "#item-#{@ogre.id}" do
+        expect(page).to have_content("Quantity: 5")
+      end
+
+      within "#item-#{@hippo.id}" do
+        click_button('More of This!')
+      end
+
+      within "#item-#{@hippo.id}" do
+        expect(page).to have_content("Quantity: 2")
+      end
+
+      expect(page).to_not have_content("Total: $5,500.00")
+      expect(page).to have_content("Total: $4,850.00")
+      expect(page).to have_content("Saved from Discounts: $650.00")
+    end
+
+    it "can discount only bulk quantity items and not normal merchant items" do
+    end
+
     it "can only apply the greater discount when more than one conflict"
   end
 end
