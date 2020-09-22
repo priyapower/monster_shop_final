@@ -33,9 +33,9 @@ RSpec.describe 'Discounts Index Page under Merchant Dashboard' do
         expect(page).to have_button("Delete this Discount")
         expect(page).to have_content("Status: Enabled")
 
-        expect(page).to_not have_content(@merchant_1_discount_1.description)
-        expect(page).to_not have_content(@merchant_1_discount_1.quantity)
-        expect(page).to_not have_content(@merchant_1_discount_1.percent)
+        expect(page).to_not have_content("Description: #{@merchant_1_discount_1.description}")
+        expect(page).to_not have_content("Minimum Quantity: #{@merchant_1_discount_1.quantity}")
+        expect(page).to_not have_content("Percent Off: #{@merchant_1_discount_1.percent}%")
       end
     end
 
@@ -61,7 +61,7 @@ RSpec.describe 'Discounts Index Page under Merchant Dashboard' do
 
     it "can visit a unique discount show page by clicking id" do
       visit '/merchant/discounts'
-      
+
       within "#discount-info-#{@merchant_1_discount_3.id}" do
         click_link(@merchant_1_discount_3.id)
       end
