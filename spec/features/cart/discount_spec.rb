@@ -80,8 +80,19 @@ RSpec.describe 'Discounted Cart Show Page' do
       expect(page).to_not have_content("Saved from Discounts:")
     end
 
+    it "can see possible merchant discount (the least quantity one) in cart" do
+      visit '/cart'
+      within "#item-#{@ogre.id}" do
+        expect(page).to have_content("Possible Merchant Discounts: #{@merchant_1_discount_1.description}")
+      end
+
+      within "#item-#{@hippo.id}" do
+        expect(page).to have_content("Possible Merchant Discounts: #{@merchant_2_discount_1.description}")
+      end
+    end
+
+
     it "can show multiple discounts savings"
-    it "can see the discount with the least quantity in the cart as a possible discount available"
     it "can only discount the qualified item - this might already by done"
     it "can only apply the greater discount when more than one conflict"
   end
