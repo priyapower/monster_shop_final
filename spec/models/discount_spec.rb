@@ -12,7 +12,7 @@ RSpec.describe Discount, type: :model do
     it { should belong_to :merchant}
   end
 
-  describe 'class methods' do
+  describe "methods" do
     before :each do
       @magic_box = Merchant.create!(name: 'The Magic Box', address: '123 Main St', city: 'Sunnydale', state: 'CA', zip: 12548)
       @discountthatisenabled_1 = @magic_box.discounts.create!(description:"Buy 5 items, get 15% off", quantity:5, percent:15)
@@ -20,8 +20,18 @@ RSpec.describe Discount, type: :model do
       @discountthatisNOTenabled_3 = @magic_box.discounts.create!(description:"Buy 20 items, get 40% off", quantity:20, percent:40, enable:false)
     end
 
-    it '.enabled_discounts' do
-      expect(Discount.enabled_discounts).to eq([@discountthatisenabled_1, @discountthatisenabled_2])
+    describe 'class methods' do
+      it '.enabled_discounts' do
+        expect(Discount.enabled_discounts).to eq([@discountthatisenabled_1, @discountthatisenabled_2])
+      end
+    end
+
+    describe 'instance methods' do
+      it "#enabled" do
+        expect(@discountthatisenabled_1.enabled).to eq("Enabled")
+        expect(@discountthatisNOTenabled_3.enabled).to eq("Disabled")
+      end
     end
   end
+
 end

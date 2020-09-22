@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Merchant Dashboard' do
+RSpec.describe 'Discounts Index Page under Merchant Dashboard' do
   describe 'As an employee of a merchant' do
     before :each do
       @merchant_1 = Merchant.create!(name: 'Megans Marmalades', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
@@ -24,57 +24,49 @@ RSpec.describe 'Merchant Dashboard' do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@m_user)
     end
 
-    it 'I can see my merchants information on the merchant dashboard' do
-      visit '/merchant'
+    it "can see discount information that belongs on index" do
+      visit '/merchant/discounts'
+      expect(page).to have_content("Discounts for #{@merchant_1.name}")
 
-      expect(page).to have_link(@merchant_1.name)
-      expect(page).to have_content(@merchant_1.address)
-      expect(page).to have_content("#{@merchant_1.city} #{@merchant_1.state} #{@merchant_1.zip}")
-    end
+      within "#discount-info-#{@merchant_1_discount_1.id}" do
+        expect(page).to have_link("Discount# #{@merchant_1_discount_1.id}")
+        expect(page).to have_button("Delete this Discount")
+        expect(page).to have_content("Status: Enabled")
 
-    it 'I do not have a link to edit the merchant information' do
-      visit '/merchant'
-
-      expect(page).to_not have_link('Edit')
-    end
-
-    it 'I see a list of pending orders containing my items' do
-      visit '/merchant'
-
-      within '.orders' do
-        expect(page).to_not have_css("#order-#{@order_1.id}")
-
-        within "#order-#{@order_2.id}" do
-          expect(page).to have_link(@order_2.id)
-          expect(page).to have_content("Potential Revenue: #{@order_2.merchant_subtotal(@merchant_1.id)}")
-          expect(page).to have_content("Quantity of Items: #{@order_2.merchant_quantity(@merchant_1.id)}")
-          expect(page).to have_content("Created: #{@order_2.created_at}")
-        end
-
-        within "#order-#{@order_3.id}" do
-          expect(page).to have_link(@order_3.id)
-          expect(page).to have_content("Potential Revenue: #{@order_3.merchant_subtotal(@merchant_1.id)}")
-          expect(page).to have_content("Quantity of Items: #{@order_3.merchant_quantity(@merchant_1.id)}")
-          expect(page).to have_content("Created: #{@order_3.created_at}")
-        end
+        expect(page).to_not have_content(@merchant_1_discount_1.description)
+        expect(page).to_not have_content(@merchant_1_discount_1.quantity)
+        expect(page).to_not have_content(@merchant_1_discount_1.percent)
       end
     end
 
-    it 'I can link to an order show page' do
-      visit '/merchant'
+    xit "can enable or disable a discount from index page" do
+      visit '/merchant/discounts'
 
-      click_link @order_2.id
+      within "#discount-info-#{@merchant_1_discount_2.id}" do
+        expect(page).to have_content("Status: Enabled")
+        expect(page).to have_button("Disable this Discount")
+        expect(@merchant_1_discount_2.enable).to eq(true)
 
-      expect(current_path).to eq("/merchant/orders/#{@order_2.id}")
-    end
-
-    it "can link to the discounts nested:merchant show page" do
-      visit '/merchant'
-
-      expect(page).to have_link("My Discounts")
-      click_link("My Discounts")
+        click_button "Disable this Discount"
+      end
 
       expect(current_path).to eq("/merchant/discounts")
+
+      within "#discount-info-#{@merchant_1_discount_2.id}" do
+        expect(page).to have_content("Status: Disabled")
+        expect(page).to have_button("Enable this Discount")
+        expect(@merchant_1_discount_2.enable).to eq(false)
+      end
+    end
+
+    it "can visit a unique discount show page by clicking id" do
+      visit '/merchant/discounts'
+      
+      within "#discount-info-#{@merchant_1_discount_3.id}" do
+        click_link(@merchant_1_discount_3.id)
+      end
+
+      expect(current_path).to eq("/merchant/discounts/#{@merchant_1_discount_3.id}")
     end
   end
 end
