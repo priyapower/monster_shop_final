@@ -5,6 +5,21 @@ class Merchant::DiscountsController < Merchant::BaseController
     @discounts = @merchant.discounts
   end
 
+  def new
+
+  end
+
+  def create
+    merchant = current_user.merchant
+    discount = merchant.discounts.new(discount_params)
+    if discount.save
+      redirect_to "/merchant/discounts"
+    else
+      generate_flash(discount)
+      render :new
+    end
+  end
+
   def show
     @discount = Discount.find(params[:id])
   end
@@ -34,10 +49,10 @@ class Merchant::DiscountsController < Merchant::BaseController
   #   redirect_to request.referer
   # end
 
-  # private
-  #
-  # def discount_params
-  #   params.permit(:description, :quantity, :percent, :enable)
-  # end
+  private
+
+  def discount_params
+    params.permit(:description, :quantity, :percent)
+  end
 
 end
