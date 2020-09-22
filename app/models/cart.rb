@@ -33,12 +33,12 @@ class Cart
     if merchant.discounts.empty?
       message = "-----None Available-----"
     else
-      merchant.discounts.each do |discount|
+      merchant.discounts.order(:quantity).each do |discount|
         quantity = @contents[item.id.to_s]
         if discount_conditions_met?(item, quantity)
           message = "Congratulations! Your quantity meets this bulk discount"
         else
-          message = discount.description
+          break message = discount.description
         end
       end
     end
@@ -63,7 +63,7 @@ class Cart
 
   def discount_conditions_met?(item, quantity)
     merchant = Merchant.find(item.merchant_id)
-    merchant.discounts.each do |discount|
+    merchant.discounts.order(:quantity).each do |discount|
       if quantity >= discount.quantity
         @current_discount = discount
         return true
