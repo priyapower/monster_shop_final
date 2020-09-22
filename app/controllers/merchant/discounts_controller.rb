@@ -5,6 +5,14 @@ class Merchant::DiscountsController < Merchant::BaseController
     @discounts = @merchant.discounts
   end
 
+  def destroy
+    merchant = current_user.merchant
+    discount = Discount.find(params[:id])
+    merchant.discounts.destroy(discount.id)
+    discount.destroy
+    redirect_to "/merchant/discounts"
+  end
+
   def edit
     @discount = Discount.find(params[:id])
   end
