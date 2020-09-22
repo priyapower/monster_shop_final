@@ -51,7 +51,35 @@ RSpec.describe 'Discounted Cart Show Page' do
       expect(page).to have_content("Saved from Discounts: $150.00")
     end
 
-    it "can remove discount if items are decreased"
+    it "can remove discount if items are decreased" do
+      visit '/cart'
+
+      expect(page).to have_content("Total: $3,500.00")
+
+      within "#item-#{@ogre.id}" do
+        click_button('More of This!')
+      end
+
+      within "#item-#{@ogre.id}" do
+        expect(page).to have_content("Quantity: 5")
+      end
+
+      expect(page).to_not have_content("Total: $4,000.00")
+      expect(page).to have_content("Total: $3,500.00")
+      expect(page).to have_content("Saved from Discounts: $500.00")
+
+      within "#item-#{@ogre.id}" do
+        click_button('Less of This!')
+      end
+
+      within "#item-#{@ogre.id}" do
+        expect(page).to have_content("Quantity: 4")
+      end
+
+      expect(page).to have_content("Total: $3,500.00")
+      expect(page).to_not have_content("Saved from Discounts:")
+    end
+
     it "can show multiple discounts savings"
     it "can see the discount with the least quantity in the cart as a possible discount available"
     it "can only discount the qualified item - this might already by done"
