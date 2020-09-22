@@ -39,8 +39,8 @@ Rails.application.routes.draw do
     resources :items, only: [:index, :new, :create, :edit, :update, :destroy]
     put '/items/:id/change_status', to: 'items#change_status'
     get '/orders/:id/fulfill/:order_item_id', to: 'orders#fulfill'
-    resources :discounts, only: [:index, :show, :new, :create, :edit, :destroy]
-    patch '/discounts/:id', to: 'discounts#update', as: :discount_update
+    resources :discounts, only: [:index, :show, :new, :create, :edit, :destroy, :update]
+    # patch '/discounts/:id', to: 'discounts#update', as: :discount_update
     patch '/discounts/:status/:id', to: 'discounts#update_status'
   end
 
