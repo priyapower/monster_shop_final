@@ -1,7 +1,7 @@
 include ActionView::Helpers::NumberHelper
 
 class Cart
-  attr_reader :contents
+  attr_reader :contents, :current_discount, :saved_discounts
 
   def initialize(contents)
     @contents = contents || {}
@@ -46,13 +46,16 @@ class Cart
   end
 
   def grand_total
+    @saved_discounts = 0.0
     grand_total = 0.0
     @contents.each do |item_id, quantity|
       item = Item.find(item_id)
       merchant = Merchant.find(item.merchant_id)
-      grand_total += item.price * quantity
       if !merchant.discounts.empty? && discount_conditions_met?(item, quantity)
-        grand_total = update_cart_with_discounts(merchant, grand_total)
+        discounted_item_total = item.price * quantity
+        grand_total += update_cart_with_discounts(@current_discount, discounted_item_total)
+      else
+        grand_total += item.price * quantity
       end
     end
     grand_total
@@ -62,6 +65,7 @@ class Cart
     merchant = Merchant.find(item.merchant_id)
     merchant.discounts.each do |discount|
       if quantity >= discount.quantity
+        @current_discount = discount
         return true
       else
         return false
@@ -69,12 +73,11 @@ class Cart
     end
   end
 
-  def update_cart_with_discounts(merchant, current_total)
-    merchant.discounts.each do |discount|
-      multiplier = (100 - discount.percent).to_f / 100
-      current_total = current_total * multiplier
-    end
-    current_total
+  def update_cart_with_discounts(discount, current_total)
+    multiplier = (100 - discount.percent).to_f / 100
+    updated_total = current_total * multiplier
+    @saved_discounts += current_total - updated_total
+    updated_total
   end
 
   def count_of(item_id)
