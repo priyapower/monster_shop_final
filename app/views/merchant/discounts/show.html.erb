@@ -23,5 +23,5 @@
   <% end %>
 </ul>
 <ul>
-  <%= button_to "Edit this Discount", merchant_discount_update_path, method: :patch %>
+  <%= button_to "Edit this Discount", "/merchant/discounts/#{@discount.id}/edit", method: :get%>
 </ul>

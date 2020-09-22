@@ -24,17 +24,39 @@ RSpec.describe 'Discounts Show Page under Merchant Dashboard' do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@m_user)
     end
 
-    it "can see discount show information" do
+    it "can edit a discount" do
       visit "/merchant/discounts/#{@merchant_1_discount_1.id}"
-      expect(page).to have_link("Discount# #{@merchant_1_discount_1.id}")
-
-      expect(page).to have_content("Description: #{@merchant_1_discount_1.description}")
-      expect(page).to have_content("Minimum Quantity: #{@merchant_1_discount_1.quantity}")
-      expect(page).to have_content("Percent Off: #{@merchant_1_discount_1.percent}%")
-      expect(page).to have_content("Status: #{@merchant_1_discount_1.enabled}")
-      expect(page).to have_button("Delete this Discount")
-      expect(page).to have_button("Enable this Discount")
       expect(page).to have_button("Edit this Discount")
+      click_button("Edit this Discount")
+
+      expect(current_path).to eq("/merchant/discounts/#{@merchant_1_discount_1.id}/edit")
+      expect(page).to have_field(:description, with: @merchant_1_discount_1.description)
+
+      new_description = "Buy 7 items, get 20% off"
+      new_quantity = 7
+      fill_in :description, with: new_description
+      fill_in :quantity, with: new_quantity
+
+      click_on "Update this Discount"
+      expect(current_path).to eq("/merchant/discounts/#{@merchant_1_discount_1.id}")
+
+      expect(page).to have_content("Description: #{new_description}")
+      expect(page).to have_content("Minimum Quantity: #{new_quantity}")
+      expect(page).to have_content("Percent Off: #{@merchant_1_discount_1.percent}%")
+    end
+
+    it "can see a flash error message if any fields missing" do
+      visit "/merchant/discounts/#{@merchant_1_discount_2.id}"
+      click_button("Edit this Discount")
+      expect(current_path).to eq("/merchant/discounts/#{@merchant_1_discount_2.id}/edit")
+
+      blank_test = ""
+      new_quantity = 50
+      fill_in :description, with: blank_test
+      fill_in :quantity, with: new_quantity
+
+      click_on "Update this Discount"
+      expect(page).to have_content("description: [\"can't be blank\"]")
     end
   end
 end
