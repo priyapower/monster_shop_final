@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     put '/items/:id/change_status', to: 'items#change_status'
     get '/orders/:id/fulfill/:order_item_id', to: 'orders#fulfill'
     resources :discounts, only: [:index, :show]
+    patch '/discounts/:id', to: 'discounts#update', as: :discount_update
     patch '/discounts/:status/:id', to: 'discounts#update_status'
   end
 

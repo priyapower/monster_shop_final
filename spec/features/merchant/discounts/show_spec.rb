@@ -34,6 +34,8 @@ RSpec.describe 'Discounts Show Page under Merchant Dashboard' do
       expect(page).to have_content("Status: #{@merchant_1_discount_1.enabled}")
       expect(page).to have_button("Delete this Discount")
       expect(page).to have_button("Enable this Discount")
+      expect(page).to have_button("Edit this Discount")
+      click_button("Edit this Discount")
     end
   end
 end

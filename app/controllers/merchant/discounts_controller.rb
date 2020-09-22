@@ -8,6 +8,12 @@ class Merchant::DiscountsController < Merchant::BaseController
   def show
     @discount = Discount.find(params[:id])
   end
+
+  def update
+    # binding.pry
+  end
+
+
   # def update_status
   #   discount = Discount.find(params[:id])
   #   if params[:status] == "disable"
