@@ -44,5 +44,19 @@ RSpec.describe 'Discounts Show Page under Merchant Dashboard' do
       expect(page).to have_content("Minimum Quantity: #{new_quantity}")
       expect(page).to have_content("Percent Off: #{@merchant_1_discount_1.percent}%")
     end
+
+    it "can see a flash error message if any fields missing" do
+      visit "/merchant/discounts/#{@merchant_1_discount_2.id}"
+      click_button("Edit this Discount")
+      expect(current_path).to eq("/merchant/discounts/#{@merchant_1_discount_2.id}/edit")
+
+      blank_test = ""
+      new_quantity = 50
+      fill_in :description, with: blank_test
+      fill_in :quantity, with: new_quantity
+
+      click_on "Update this Discount"
+      expect(page).to have_content("description: [\"can't be blank\"]")
+    end
   end
 end
