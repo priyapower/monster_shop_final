@@ -6,7 +6,7 @@ class Merchant::DiscountsController < Merchant::BaseController
   end
 
   def show
-
+    @discount = Discount.find(params[:id])
   end
   # def update_status
   #   discount = Discount.find(params[:id])
