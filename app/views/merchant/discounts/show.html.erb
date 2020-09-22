@@ -1,0 +1,27 @@
+<h1><%= link_to "Discount# #{@discount.id}", "/merchant/discounts/#{@discount.id}" %></h1>
+<ul>
+  <p>Description: <%= @discount.description %></p>
+</ul>
+<ul>
+  <p>Minimum Quantity: <%= @discount.quantity %></p>
+</ul>
+<ul>
+  <p>Percent Off: <%= @discount.percent %>%</p>
+</ul>
+<ul>
+  <p>Status: <%= @discount.enabled %></p>
+</ul>
+<br>
+<ul>
+  <%= button_to "Delete this Discount", "/merchant/discounts/#{@discount.id}", method: :delete %>
+</ul>
+<ul>
+  <% if @discount.enable? %>
+  <%= button_to "Disable this Discount", "/merchant/discounts/disable/#{@discount.id}", method: :patch%>
+  <% else %>
+  <%= button_to "Enable this Discount", "/merchant/discounts/enable/#{@discount.id}", method: :patch%>
+  <% end %>
+</ul>
+<ul>
+  <%= button_to "Edit this Discount", merchant_discount_update_path, method: :patch %>
+</ul>

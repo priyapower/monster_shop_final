@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Discounts Index Page under Merchant Dashboard' do
+RSpec.describe 'Discounts Show Page under Merchant Dashboard' do
   describe 'As an employee of a merchant' do
     before :each do
       @merchant_1 = Merchant.create!(name: 'Megans Marmalades', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
@@ -16,7 +16,7 @@ RSpec.describe 'Discounts Index Page under Merchant Dashboard' do
       @order_item_2 = @order_2.order_items.create!(item: @hippo, price: @hippo.price, quantity: 2, fulfilled: true)
       @order_item_3 = @order_2.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2, fulfilled: false)
       @order_item_4 = @order_3.order_items.create!(item: @giant, price: @giant.price, quantity: 2, fulfilled: false)
-      @merchant_1_discount_1 = @merchant_1.discounts.create!(description:"Buy 5 items, get 20% off", quantity:5, percent:20)
+      @merchant_1_discount_1 = @merchant_1.discounts.create!(description:"Buy 5 items, get 20% off", quantity:5, percent:20, enable:false)
       @merchant_1_discount_2 = @merchant_1.discounts.create!(description:"Buy 15 items, get 40% off", quantity:15, percent:40)
       @merchant_1_discount_3 = @merchant_1.discounts.create!(description:"Buy 30 items, get 60% off", quantity:30, percent:60)
       @merchant_2_discount_1 = @merchant_2.discounts.create!(description:"Buy 2 items, get 5% off", quantity:2, percent:5)
@@ -24,49 +24,18 @@ RSpec.describe 'Discounts Index Page under Merchant Dashboard' do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@m_user)
     end
 
-    it "can see discount information that belongs on index" do
-      visit '/merchant/discounts'
-      expect(page).to have_content("Discounts for #{@merchant_1.name}")
+    it "can see discount show information" do
+      visit "/merchant/discounts/#{@merchant_1_discount_1.id}"
+      expect(page).to have_link("Discount# #{@merchant_1_discount_1.id}")
 
-      within "#discount-info-#{@merchant_1_discount_1.id}" do
-        expect(page).to have_link("Discount# #{@merchant_1_discount_1.id}")
-        expect(page).to have_button("Delete this Discount")
-        expect(page).to have_content("Status: Enabled")
-
-        expect(page).to_not have_content(@merchant_1_discount_1.description)
-        expect(page).to_not have_content(@merchant_1_discount_1.quantity)
-        expect(page).to_not have_content(@merchant_1_discount_1.percent)
-      end
-    end
-
-    xit "can enable or disable a discount from index page" do
-      visit '/merchant/discounts'
-
-      within "#discount-info-#{@merchant_1_discount_2.id}" do
-        expect(page).to have_content("Status: Enabled")
-        expect(page).to have_button("Disable this Discount")
-        expect(@merchant_1_discount_2.enable).to eq(true)
-
-        click_button "Disable this Discount"
-      end
-
-      expect(current_path).to eq("/merchant/discounts")
-
-      within "#discount-info-#{@merchant_1_discount_2.id}" do
-        expect(page).to have_content("Status: Disabled")
-        expect(page).to have_button("Enable this Discount")
-        expect(@merchant_1_discount_2.enable).to eq(false)
-      end
-    end
-
-    it "can visit a unique discount show page by clicking id" do
-      visit '/merchant/discounts'
-      
-      within "#discount-info-#{@merchant_1_discount_3.id}" do
-        click_link(@merchant_1_discount_3.id)
-      end
-
-      expect(current_path).to eq("/merchant/discounts/#{@merchant_1_discount_3.id}")
+      expect(page).to have_content("Description: #{@merchant_1_discount_1.description}")
+      expect(page).to have_content("Minimum Quantity: #{@merchant_1_discount_1.quantity}")
+      expect(page).to have_content("Percent Off: #{@merchant_1_discount_1.percent}%")
+      expect(page).to have_content("Status: #{@merchant_1_discount_1.enabled}")
+      expect(page).to have_button("Delete this Discount")
+      expect(page).to have_button("Enable this Discount")
+      expect(page).to have_button("Edit this Discount")
+      click_button("Edit this Discount")
     end
   end
 end
