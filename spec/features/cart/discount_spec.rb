@@ -117,9 +117,6 @@ RSpec.describe 'Discounted Cart Show Page' do
       expect(page).to have_content("Saved from Discounts: $650.00")
     end
 
-    it "can discount only bulk quantity items and not normal merchant items" do
-    end
-
     it "can only apply the greater discount when more than one conflict"
   end
 end
