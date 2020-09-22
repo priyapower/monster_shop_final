@@ -39,24 +39,20 @@ RSpec.describe 'Discounts Index Page under Merchant Dashboard' do
       end
     end
 
-    xit "can enable or disable a discount from index page" do
+    it "can enable or disable a discount from index page" do
       visit '/merchant/discounts'
 
       within "#discount-info-#{@merchant_1_discount_2.id}" do
         expect(page).to have_content("Status: Enabled")
         expect(page).to have_button("Disable this Discount")
-        expect(@merchant_1_discount_2.enable).to eq(true)
 
         click_button "Disable this Discount"
       end
 
-      expect(current_path).to eq("/merchant/discounts")
+      expect(current_path).to eq("/merchant/discounts/#{@merchant_1_discount_2.id}")
 
-      within "#discount-info-#{@merchant_1_discount_2.id}" do
-        expect(page).to have_content("Status: Disabled")
-        expect(page).to have_button("Enable this Discount")
-        expect(@merchant_1_discount_2.enable).to eq(false)
-      end
+      expect(page).to have_content("Status: Disabled")
+      expect(page).to have_button("Enable this Discount")
     end
 
     it "can visit a unique discount show page by clicking id" do
