@@ -36,5 +36,22 @@ RSpec.describe 'Discounts Show Page under Merchant Dashboard' do
       expect(page).to have_button("Enable this Discount")
       expect(page).to have_button("Edit this Discount")
     end
+
+    it "can delete a discount" do
+      visit '/merchant/discounts'
+      within "#discount-info-#{@merchant_1_discount_2.id}" do
+        expect(page).to have_link("Discount# #{@merchant_1_discount_2.id}")
+        expect(page).to have_button("Delete this Discount")
+        expect(page).to have_content("Status: Enabled")
+        click_link "Discount# #{@merchant_1_discount_2.id}"
+      end
+
+      expect(current_path).to eq("/merchant/discounts/#{@merchant_1_discount_2.id}")
+
+      expect(page).to have_button("Delete this Discount")
+      click_button "Delete this Discount"
+      expect(page).to_not have_link("Discount# #{@merchant_1_discount_2.id}")
+      expect(current_path).to eq("/merchant/discounts")
+    end
   end
 end
