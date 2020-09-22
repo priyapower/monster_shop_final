@@ -50,5 +50,11 @@ RSpec.describe 'Discounted Cart Show Page' do
       expect(page).to have_content("Total: $4,850.00")
       expect(page).to have_content("Saved from Discounts: $150.00")
     end
+
+    it "can remove discount if items are decreased"
+    it "can show multiple discounts savings"
+    it "can see the discount with the least quantity in the cart as a possible discount available"
+    it "can only discount the qualified item - this might already by done"
+    it "can only apply the greater discount when more than one conflict"
   end
 end
