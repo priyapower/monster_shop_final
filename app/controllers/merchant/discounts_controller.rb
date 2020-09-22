@@ -5,6 +5,10 @@ class Merchant::DiscountsController < Merchant::BaseController
     @discounts = @merchant.discounts
   end
 
+  def edit
+    @discount = Discount.find(params[:id])
+  end
+
   def new
 
   end
@@ -25,7 +29,13 @@ class Merchant::DiscountsController < Merchant::BaseController
   end
 
   def update
-    # binding.pry
+    discount = Discount.find(params[:id])
+    if discount.update(discount_params)
+      redirect_to "/merchant/discounts/#{discount.id}"
+    else
+      generate_flash(discount)
+      render :edit
+    end
   end
 
 
