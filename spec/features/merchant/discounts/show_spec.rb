@@ -53,5 +53,16 @@ RSpec.describe 'Discounts Show Page under Merchant Dashboard' do
       expect(page).to_not have_link("Discount# #{@merchant_1_discount_2.id}")
       expect(current_path).to eq("/merchant/discounts")
     end
+
+    it "can enable or disable a discount from show page" do
+      visit "/merchant/discounts/#{@merchant_1_discount_1.id}"
+
+        expect(page).to have_content("Status: Disabled")
+        expect(page).to have_button("Enable this Discount")
+        click_button "Enable this Discount"
+
+        expect(page).to have_content("Status: Enabled")
+        expect(page).to have_button("Disable this Discount")
+    end
   end
 end
