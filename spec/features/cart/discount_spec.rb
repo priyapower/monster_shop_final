@@ -118,20 +118,31 @@ RSpec.describe 'Discounted Cart Show Page' do
     end
 
     it "can only apply the greater discount when more than one conflict" do
-      11.times do
+      visit item_path(@ogre)
+      click_button 'Add to Cart'
+
+      visit '/cart'
+
+      within "#item-#{@ogre.id}" do
+        expect(page).to have_content("Quantity: 5")
+      end
+
+      expect(page).to_not have_content("Total: $4,000.00")
+      expect(page).to have_content("Total: $3,500.00")
+      expect(page).to have_content("Saved from Discounts: $500.00")
+
+      10.times do
         visit item_path(@ogre)
         click_button 'Add to Cart'
       end
 
-      # 15 ogres + 1 hippo = 9000
-      # 15 ogres (original discount = 6000) + 1 hippo = 7500
-      # 15 ogres (correct discount = 4500) + 1 hippo = 6000
-
       visit '/cart'
 
-      #Original price
+      within "#item-#{@ogre.id}" do
+        expect(page).to have_content("Quantity: 15")
+      end
+
       expect(page).to_not have_content("Total: $9,000.00")
-      #Incorrect discount for buy 5, get 20% off
       expect(page).to_not have_content("Total: $7,500.00")
       expect(page).to have_content("Total: $6,000.00")
       expect(page).to have_content("Saved from Discounts: $3,000.00")
