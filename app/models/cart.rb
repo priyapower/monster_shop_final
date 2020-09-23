@@ -65,12 +65,27 @@ class Cart
     merchant = Merchant.find(item.merchant_id)
     merchant.discounts.order(:quantity).each do |discount|
       if quantity >= discount.quantity
-        @current_discount = discount
+        all_possible_discounts(item, quantity)
         return true
       else
         return false
       end
     end
+  end
+
+  def all_possible_discounts(item, quantity)
+    merchant = Merchant.find(item.merchant_id)
+    hash_for_discounted_totals = Hash.new
+    merchant.discounts.order(:quantity).each do |discount|
+      if quantity >= discount.quantity
+        multiplier = (100 - discount.percent).to_f / 100
+        current_total = item.price * quantity
+        discounted_total = current_total * multiplier
+        hash_for_discounted_totals[discount.id] = current_total - discounted_total
+      end
+    end
+    discount = Discount.find(hash_for_discounted_totals.key(hash_for_discounted_totals.values.max))
+    @current_discount = discount
   end
 
   def update_cart_with_discounts(discount, current_total)

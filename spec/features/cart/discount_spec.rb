@@ -117,6 +117,35 @@ RSpec.describe 'Discounted Cart Show Page' do
       expect(page).to have_content("Saved from Discounts: $650.00")
     end
 
-    it "can only apply the greater discount when more than one conflict"
+    it "can only apply the greater discount when more than one conflict" do
+      visit item_path(@ogre)
+      click_button 'Add to Cart'
+
+      visit '/cart'
+
+      within "#item-#{@ogre.id}" do
+        expect(page).to have_content("Quantity: 5")
+      end
+
+      expect(page).to_not have_content("Total: $4,000.00")
+      expect(page).to have_content("Total: $3,500.00")
+      expect(page).to have_content("Saved from Discounts: $500.00")
+
+      10.times do
+        visit item_path(@ogre)
+        click_button 'Add to Cart'
+      end
+
+      visit '/cart'
+
+      within "#item-#{@ogre.id}" do
+        expect(page).to have_content("Quantity: 15")
+      end
+
+      expect(page).to_not have_content("Total: $9,000.00")
+      expect(page).to_not have_content("Total: $7,500.00")
+      expect(page).to have_content("Total: $6,000.00")
+      expect(page).to have_content("Saved from Discounts: $3,000.00")
+    end
   end
 end
