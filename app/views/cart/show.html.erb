@@ -2,8 +2,8 @@
 <% if cart.items.empty? %>
   <p>Your Cart is Empty!</p>
 <% else %>
-<h3>Total: <%= number_to_currency(cart.grand_total) %></h3>
-  <% if !cart.current_discount.nil? %>
+  <h3>Total: <%= number_to_currency(cart.grand_total) %></h3>
+  <% if !cart.saved_discounts.nil? %>
     <h4>Saved from Discounts: <%= number_to_currency(cart.saved_discounts) %></h4>
   <% end %>
   <% cart.items.each do |item| %>
