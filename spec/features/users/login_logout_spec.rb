@@ -41,7 +41,7 @@ RSpec.describe 'User Login and Log Out' do
         fill_in 'Password', with: @m_user.password
         click_button 'Log In'
 
-        expect(current_path).to eq(merchant_dashboard_path)
+        expect(current_path).to eq(merchant_dashboard_index_path)
         expect(page).to have_content("Logged in as #{@m_user.name}")
       end
 
@@ -50,7 +50,7 @@ RSpec.describe 'User Login and Log Out' do
 
         visit login_path
 
-        expect(current_path).to eq(merchant_dashboard_path)
+        expect(current_path).to eq(merchant_dashboard_index_path)
         expect(page).to have_content('You are already logged in!')
       end
     end
@@ -67,7 +67,7 @@ RSpec.describe 'User Login and Log Out' do
         fill_in 'Password', with: @admin.password
         click_button 'Log In'
 
-        expect(current_path).to eq(admin_dashboard_path)
+        expect(current_path).to eq(admin_dashboard_index_path)
         expect(page).to have_content("Logged in as #{@admin.name}")
       end
 
@@ -76,7 +76,7 @@ RSpec.describe 'User Login and Log Out' do
 
         visit login_path
 
-        expect(current_path).to eq(admin_dashboard_path)
+        expect(current_path).to eq(admin_dashboard_index_path)
         expect(page).to have_content('You are already logged in!')
       end
     end
@@ -124,7 +124,7 @@ RSpec.describe 'User Login and Log Out' do
 
       click_link 'Log Out'
 
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(welcome_index_path)
       expect(page).to_not have_content("Logged in as #{@user.name}")
       expect(page).to have_content('You have been logged out!')
     end

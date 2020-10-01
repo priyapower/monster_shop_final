@@ -1,6 +1,10 @@
+# Module 3 requires you to know URLs, paths and HTTP verbs inside and out. Rewrite the routes file for your Monster Shop to use only methods that map directly to HTTP verbs: get, post, put, patch and delete. You will probably need to add to: and as: parameters to make sure your apps continue to work, and tests continue to pass.
+#  - Rewrite your Monster Shop routes.rb:
+#  - If you wrote your routes that way already, replace them using resources.
+#  - If you do not own the repo for your project, fork it, and rewrite the routes file individually.
+
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  get "/", to: 'welcome#index', as: :root
+  resources :welcome, :path => "/", only: :index
 
   resources :merchants do
     resources :items, only: [:index]
@@ -12,42 +16,58 @@ Rails.application.routes.draw do
 
   resources :reviews, only: [:edit, :update, :destroy]
 
-  get '/cart', to: 'cart#show'
-  post '/cart/:item_id', to: 'cart#add_item'
-  delete '/cart', to: 'cart#empty'
-  patch '/cart/:change/:item_id', to: 'cart#update_quantity'
-  delete '/cart/:item_id', to: 'cart#remove_item'
+  resource :cart, only: [:show], controller: "cart" do
+    post ':item_id', :action => 'add_item'
+    delete '', :action => 'empty'
+    patch ':change/:item_id', :action => 'update_quantity'
+    delete ':item_id', :action => 'remove_item'
+  end
 
-  get '/registration', to: 'users#new', as: :registration
+  scope controller: :users do
+    get 'registration' => :new, as: :registration
+    patch '/user/:id' => :update
+    get '/profile' => :show
+    get '/profile/edit' => :edit
+    get '/profile/edit_password' => :edit_password
+  end
+
   resources :users, only: [:create, :update]
-  patch '/user/:id', to: 'users#update'
-  get '/profile', to: 'users#show'
-  get '/profile/edit', to: 'users#edit'
-  get '/profile/edit_password', to: 'users#edit_password'
-  post '/orders', to: 'user/orders#create'
-  get '/profile/orders', to: 'user/orders#index'
-  get '/profile/orders/:id', to: 'user/orders#show'
-  delete '/profile/orders/:id', to: 'user/orders#cancel'
 
-  get '/login', to: 'sessions#new'
-  post '/login', to: 'sessions#login'
-  get '/logout', to: 'sessions#logout'
+  scope controller: :orders, module: 'user' do
+    post '/orders' => :create
+    get '/profile/orders' => :index
+    get '/profile/orders/:id' => :show
+    delete '/profile/orders/:id' => :cancel
+  end
+
+  scope controller: :sessions do
+    get '/login' => :new
+    post '/login' => :login
+    get '/logout' => :logout
+  end
 
   namespace :merchant do
-    get '/', to: 'dashboard#index', as: :dashboard
+    resources :dashboard, :path => "/", only: :index
     resources :orders, only: :show
     resources :items, only: [:index, :new, :create, :edit, :update, :destroy]
-    put '/items/:id/change_status', to: 'items#change_status'
-    get '/orders/:id/fulfill/:order_item_id', to: 'orders#fulfill'
+    resource :items do
+      put ':id/change_status', action: :change_status
+    end
+    resource :orders do
+      get '/:id/fulfill/:order_item_id' => :fulfill
+    end
     resources :discounts, only: [:index, :show, :new, :create, :edit, :destroy, :update]
-    # patch '/discounts/:id', to: 'discounts#update', as: :discount_update
-    patch '/discounts/:status/:id', to: 'discounts#update_status'
+    resource :discounts do
+      patch '/:status/:id' => :update_status
+    end
   end
 
   namespace :admin do
-    get '/', to: 'dashboard#index', as: :dashboard
+    resources :dashboard, :path => "/", only: :index
     resources :merchants, only: [:show, :update]
     resources :users, only: [:index, :show]
-    patch '/orders/:id/ship', to: 'orders#ship'
+    resource :orders do
+      patch '/:id/ship' => :ship
+    end
   end
 end

@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
     session.delete(:user_id)
     session.delete(:cart)
     flash[:notice] = 'You have been logged out!'
-    redirect_to root_path
+    redirect_to welcome_index_path
   end
 
   private
@@ -28,9 +28,9 @@ class SessionsController < ApplicationController
   def login_redirect(user)
     session[:user_id] = user.id
     if current_merchant_user?
-      redirect_to merchant_dashboard_path
+      redirect_to merchant_dashboard_index_path
     elsif current_admin?
-      redirect_to admin_dashboard_path
+      redirect_to admin_dashboard_index_path
     else
       redirect_to profile_path
     end
